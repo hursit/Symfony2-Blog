@@ -1,0 +1,19 @@
+{% extends "HursitBlogBundle:Backend:backend_layout.html.twig" %}
+
+{% block title %}{{title}}{% endblock%}
+
+{% block body %}
+    <fieldset>
+        <legend>{{title}}</legend>
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+            <div class="form-group">
+                <label for="form_name">Kategori İsmi :</label>
+                {{ form_errors(form.name) }}
+                {{ form_widget(form.name) }}
+            </div>
+            {{ form_widget(form.Kaydet) }}
+        {{ form_end(form) }}
+    </fieldset>
+    
+{% endblock %}

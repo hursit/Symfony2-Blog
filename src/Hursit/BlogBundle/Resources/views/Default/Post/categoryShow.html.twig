@@ -7,8 +7,8 @@
          <h1>{{post.title}}</h1>
          <hr>
          <p>
-             <span class="glyphicon glyphicon-time"></span> Kategori : {{post.category_id.name}}</p>
-         <hr>
+            <span class="glyphicon glyphicon-time"></span> <strong>Gönderilme:</strong> {{post.created}} &Diamond; <strong>Kategori:</strong> {{post.category_id.name}}</p>
+          <hr>
              <br>
              &xmap;&nbsp;&nbsp;{{post.detail | striptags | slice(0,1000)}}...<br>
              <a href="{{url('post_show',{'id' : post.id}) }}">Tamamını görüntülemek için tıklayınız...</a>

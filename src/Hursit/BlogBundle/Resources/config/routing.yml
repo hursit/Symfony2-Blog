@@ -52,3 +52,9 @@ backend_delete_category:
 backend_delete_post:
     pattern:  /backend/post/delete/{id}
     defaults: { _controller: HursitBlogBundle:Backend:deletePost }
+backend_show_post:
+    pattern:  /backend/post/{id}
+    defaults: { _controller: HursitBlogBundle:Backend:showPost }
+backend_show_category:
+    pattern:  /backend/category/{id}
+    defaults: { _controller: HursitBlogBundle:Backend:showCategory }

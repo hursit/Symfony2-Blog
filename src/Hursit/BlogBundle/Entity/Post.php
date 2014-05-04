@@ -30,9 +30,9 @@ class Post {
 
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string")
      */
-    protected $created;
+    public $created;
 
     /**
      * @ORM\Column(type="text")
@@ -102,21 +102,16 @@ class Post {
     }
 
     /**
-     * Set created
-     *
-     * @return Post
+     * @ORM\PrePersist()
      */
-    public function setCreated()
-    {
-        $this->created = new \Symfony\Component\Validator\Constraints\DateTime();
-
+    public function setCreated() {
+        $this->created = date('Y-m-d H:m:s');
         return $this;
     }
-
     /**
      * Get created
      *
-     * @return datetime
+     * @return string
      */
     public function getCreated()
     {

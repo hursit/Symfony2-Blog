@@ -1,9 +1,18 @@
 <div class="col-lg-4">
     <div class="well">
+        <h4>Admin Menü</h4>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-unstyled">
+                    <li><a href="{{url('backend_new_post')}}">Yeni Gönderi Ekle</a></li>
+                    <li><a href="{{url('backend_new_category')}}">Yeni Kategori Ekle</a></li>
+                </ul>
+            </div>
+        </div>
         <h4>Blog Kategorileri</h4>
         <div class="row">
             <div class="col-lg-12">
-                {{ render(controller('HursitBlogBundle:Post:getCategories')) }}
+                {{ render(controller('HursitBlogBundle:Backend:getCategories')) }}
             </div>
         </div>
     </div>

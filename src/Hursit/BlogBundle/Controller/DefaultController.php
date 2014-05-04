@@ -10,7 +10,7 @@ class DefaultController extends Controller
     {
         $post_Rep = $this->getDoctrine()->getRepository('HursitBlogBundle:Post');
         $posts = $post_Rep->getNews(20);
-        return $this->render('HursitBlogBundle:Default/Static_Pages:index.html.twig', array('posts' => $posts));
+        return $this->render('HursitBlogBundle:Default/Post:index.html.twig', array('posts' => $posts));
     }
     public function aboutAction(){
         return $this->render('HursitBlogBundle:Default/Static_Pages:about.html.twig');

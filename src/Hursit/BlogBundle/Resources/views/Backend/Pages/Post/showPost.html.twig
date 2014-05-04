@@ -1,0 +1,17 @@
+{% extends "HursitBlogBundle:Backend:backend_layout.html.twig" %}
+
+{% block title %}{{post.title}}{% endblock%}
+
+{% block body %}
+    <h1>{{post.title}}</h1>
+         <hr>
+         <p>
+             <span class="glyphicon glyphicon-time"></span> <strong>Gönderilme:</strong> {{post.created}} &Diamond; <strong>Kategori:</strong> {{post.category_id.name}}</p>
+         <hr>
+             <br>
+             &xmap;&nbsp;&nbsp;{{post.detail|raw}}
+             <div class="clear"></div>
+             
+             <hr><br>
+             <a href="{{url('backend_edit_post',{'id' : post.id})}}" class="btn btn-warning">Düzenle</a> &DoubleLongLeftRightArrow;<a href="{{url('backend_delete_post',{'id' : post.id})}}" class="btn btn-danger">Sil</a>
+{% endblock %}

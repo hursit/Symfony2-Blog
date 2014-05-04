@@ -228,9 +228,22 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'backend_delete_category')), array (  '_controller' => 'Hursit\\BlogBundle\\Controller\\BackendController::deleteCategoryAction',));
             }
 
-            // backend_delete_post
-            if (0 === strpos($pathinfo, '/backend/post/delete') && preg_match('#^/backend/post/delete/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'backend_delete_post')), array (  '_controller' => 'Hursit\\BlogBundle\\Controller\\BackendController::deletePostAction',));
+            if (0 === strpos($pathinfo, '/backend/post')) {
+                // backend_delete_post
+                if (0 === strpos($pathinfo, '/backend/post/delete') && preg_match('#^/backend/post/delete/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'backend_delete_post')), array (  '_controller' => 'Hursit\\BlogBundle\\Controller\\BackendController::deletePostAction',));
+                }
+
+                // backend_show_post
+                if (preg_match('#^/backend/post/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'backend_show_post')), array (  '_controller' => 'Hursit\\BlogBundle\\Controller\\BackendController::showPostAction',));
+                }
+
+            }
+
+            // backend_show_category
+            if (0 === strpos($pathinfo, '/backend/category') && preg_match('#^/backend/category/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'backend_show_category')), array (  '_controller' => 'Hursit\\BlogBundle\\Controller\\BackendController::showCategoryAction',));
             }
 
         }

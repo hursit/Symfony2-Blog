@@ -1,0 +1,34 @@
+{% extends "HursitBlogBundle:Backend:backend_layout.html.twig" %}
+
+{% block title %}Gönderiler{% endblock%}
+
+{% block body %}
+    <fieldset>
+        <legend>Gönderiler</legend>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Kategori</th>
+          <th>Başlık</th>
+          <th>Detay</th>
+          <th>Tarih</th>
+          <th>Görüntüle</th>
+          <th>Düzenle</th>
+          <th>Sil</th>
+        </tr>
+      </thead>
+      {% for post in posts %}
+        <tr>
+          <td>{{post.category_id.name}}</td>
+          <td>{{post.title}}</td>
+          <td>{{post.detail|striptags | slice(0, 150)}}</td>
+          <td>{{post.created}}</td>
+          <td><a href="{{url('backend_show_post',{'id' : post.id})}}" class="btn btn-success">Görüntüle</a></td>
+          <td><a href="{{url('backend_edit_post',{'id' : post.id})}}" class="btn btn-info">Düzenle</a></td>
+          <td><a href="{{url('backend_delete_post',{'id' : post.id})}}" class="btn btn-danger">Sil</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+     </table>
+</fieldset>
+    {% endblock %}
