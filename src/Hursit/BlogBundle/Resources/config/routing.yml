@@ -1,0 +1,54 @@
+blog_homepage:
+    pattern:  /
+    defaults: { _controller: HursitBlogBundle:Default:index }
+login:
+    pattern:  /login
+    defaults: { _controller: HursitBlogBundle:Default:login }
+contact:
+    pattern:  /contact
+    defaults: { _controller: HursitBlogBundle:Default:contact }
+about:
+    pattern:  /about
+    defaults: { _controller: HursitBlogBundle:Default:about }
+post_show:
+    pattern:  /show/{id}
+    defaults: { _controller: HursitBlogBundle:Post:showPost }
+category_show:
+    pattern:  /category/{id}
+    defaults: { _controller: HursitBlogBundle:Post:showCategory}
+all_posts:
+    pattern:  /posts
+    defaults: { _controller: HursitBlogBundle:Post:allPosts }
+news:
+    pattern:  /news
+    defaults: { _controller: HursitBlogBundle:Post:newsPosts }
+categories:
+    pattern:  /categories
+    defaults: { _controller: HursitBlogBundle:Post:getCategories }
+backend:
+    pattern:  /backend
+    defaults: { _controller: HursitBlogBundle:Backend:index }
+backend_posts:
+    pattern:  /backend/posts
+    defaults: { _controller: HursitBlogBundle:Backend:posts }
+backend_categories:
+    pattern:  /backend/categories
+    defaults: { _controller: HursitBlogBundle:Backend:categories }
+backend_new_category:
+    pattern:  /backend/category/new
+    defaults: { _controller: HursitBlogBundle:Backend:newCategory }
+backend_new_post:
+    pattern:  /backend/post/new
+    defaults: { _controller: HursitBlogBundle:Backend:newPost }
+backend_edit_category:
+    pattern:  /backend/category/edit/{id}
+    defaults: { _controller: HursitBlogBundle:Backend:editCategory }
+backend_edit_post:
+    pattern:  /backend/post/edit/{id}
+    defaults: { _controller: HursitBlogBundle:Backend:editPost }
+backend_delete_category:
+    pattern:  /backend/category/delete/{id}
+    defaults: { _controller: HursitBlogBundle:Backend:deleteCategory }
+backend_delete_post:
+    pattern:  /backend/post/delete/{id}
+    defaults: { _controller: HursitBlogBundle:Backend:deletePost }

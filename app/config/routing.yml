@@ -1,0 +1,4 @@
+hursit_blog:
+    resource: "@HursitBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+

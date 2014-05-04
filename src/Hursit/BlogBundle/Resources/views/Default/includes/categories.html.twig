@@ -1,0 +1,5 @@
+<ul class="list-unstyled">
+    {% for category in categories %}
+        <li><a href="{{url('category_show',{'id' : category.id})}}">{{category.name | capitalize}}</a></li>
+    {% endfor %}
+</ul>
