@@ -83,11 +83,11 @@ EOT
         $bundlesDir = $targetArg.'/bundles/';
         $filesystem->mkdir($bundlesDir, 0777);
 
-        $output->writeln(sprintf("Installing assets using the <comment>%s</comment> option", $input->getOption('symlink') ? 'symlink' : 'hard copy'));
+        $output->writeln(sprintf('Installing assets as <comment>%s</comment>', $input->getOption('symlink') ? 'symlinks' : 'hard copies'));
 
         foreach ($this->getContainer()->get('kernel')->getBundles() as $bundle) {
             if (is_dir($originDir = $bundle->getPath().'/Resources/public')) {
-                $targetDir  = $bundlesDir.preg_replace('/bundle$/', '', strtolower($bundle->getName()));
+                $targetDir = $bundlesDir.preg_replace('/bundle$/', '', strtolower($bundle->getName()));
 
                 $output->writeln(sprintf('Installing assets for <comment>%s</comment> into <comment>%s</comment>', $bundle->getNamespace(), $targetDir));
 

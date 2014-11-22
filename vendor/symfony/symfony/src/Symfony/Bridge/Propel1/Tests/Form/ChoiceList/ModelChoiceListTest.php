@@ -97,7 +97,7 @@ class ModelChoiceListTest extends Propel1TestCase
             null,
             null,
             array(
-                $item1
+                $item1,
             )
         );
 
@@ -122,7 +122,7 @@ class ModelChoiceListTest extends Propel1TestCase
         $this->assertSame(array(1 => $item1, 2 => $item2), $choiceList->getChoices());
         $this->assertEquals(array(
             'group1' => array(1 => new ChoiceView($item1, '1', 'Foo')),
-            'group2' => array(2 => new ChoiceView($item2, '2', 'Bar'))
+            'group2' => array(2 => new ChoiceView($item2, '2', 'Bar')),
         ), $choiceList->getRemainingViews());
     }
 
@@ -150,7 +150,7 @@ class ModelChoiceListTest extends Propel1TestCase
         $this->assertEquals(array(
             'Group1' => array(1 => new ChoiceView($item1, '1', 'Foo'), 2 => new ChoiceView($item2, '2', 'Bar')),
             'Group2' => array(3 => new ChoiceView($item3, '3', 'Baz')),
-            4 => new ChoiceView($item4, '4', 'Boo!')
+            4 => new ChoiceView($item4, '4', 'Boo!'),
         ), $choiceList->getRemainingViews());
     }
 
@@ -172,7 +172,7 @@ class ModelChoiceListTest extends Propel1TestCase
 
         $this->assertEquals(array(
             1 => $item1,
-            2 => $item2
+            2 => $item2,
         ), $choiceList->getChoices());
     }
 
@@ -258,5 +258,27 @@ class ModelChoiceListTest extends Propel1TestCase
     public function testInvalidClass()
     {
         $choiceList = new ModelChoiceList('Foo\Bar\DoesNotExistClass');
+    }
+
+    public function testCustomIdentifier()
+    {
+        $item1 = new Item(1, 'Foo', null, null, 'slug');
+        $item2 = new Item(2, 'Bar', null, null, 'slug2');
+
+        $choiceList = new ModelChoiceList(
+            self::ITEM_CLASS,
+            'value',
+            array(
+                $item1,
+                $item2,
+            ),
+            null,
+            null,
+            array(),
+            null,
+            'slug'
+        );
+
+        $this->assertSame(array('slug' => $item1, 'slug2' => $item2), $choiceList->getChoices());
     }
 }

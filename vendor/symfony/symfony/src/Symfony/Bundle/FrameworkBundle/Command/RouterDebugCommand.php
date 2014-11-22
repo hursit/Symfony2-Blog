@@ -20,7 +20,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\Route;
 
 /**
- * A console command for retrieving information about routes
+ * A console command for retrieving information about routes.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Tobias Schultze <http://tobion.de>
@@ -61,6 +61,7 @@ class RouterDebugCommand extends ContainerAwareCommand
 The <info>%command.name%</info> displays the configured routes:
 
   <info>php %command.full_name%</info>
+
 EOF
             )
         ;
@@ -83,9 +84,9 @@ EOF
             }
             $this->convertController($route);
             $helper->describe($output, $route, array(
-                'format'   => $input->getOption('format'),
+                'format' => $input->getOption('format'),
                 'raw_text' => $input->getOption('raw'),
-                'name'     => $name,
+                'name' => $name,
             ));
         } else {
             $routes = $this->getContainer()->get('router')->getRouteCollection();
@@ -95,8 +96,8 @@ EOF
             }
 
             $helper->describe($output, $routes, array(
-                'format'           => $input->getOption('format'),
-                'raw_text'         => $input->getOption('raw'),
+                'format' => $input->getOption('format'),
+                'raw_text' => $input->getOption('raw'),
                 'show_controllers' => $input->getOption('show-controllers'),
             ));
         }

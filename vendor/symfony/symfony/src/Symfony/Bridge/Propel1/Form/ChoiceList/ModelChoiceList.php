@@ -14,7 +14,6 @@ namespace Symfony\Bridge\Propel1\Form\ChoiceList;
 use \ModelCriteria;
 use \BaseObject;
 use \Persistent;
-
 use Symfony\Component\Form\Exception\StringCastException;
 use Symfony\Component\Form\Extension\Core\ChoiceList\ObjectChoiceList;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
@@ -71,21 +70,25 @@ class ModelChoiceList extends ObjectChoiceList
      *
      * @see \Symfony\Bridge\Propel1\Form\Type\ModelType How to use the preferred choices.
      *
-     * @param string                   $class             The FQCN of the model class to be loaded.
-     * @param string                   $labelPath         A property path pointing to the property used for the choice labels.
-     * @param array                    $choices           An optional array to use, rather than fetching the models.
-     * @param ModelCriteria            $queryObject       The query to use retrieving model data from database.
-     * @param string                   $groupPath         A property path pointing to the property used to group the choices.
-     * @param array|ModelCriteria      $preferred         The preferred items of this choice.
+     * @param string                    $class            The FQCN of the model class to be loaded.
+     * @param string                    $labelPath        A property path pointing to the property used for the choice labels.
+     * @param array                     $choices          An optional array to use, rather than fetching the models.
+     * @param ModelCriteria             $queryObject      The query to use retrieving model data from database.
+     * @param string                    $groupPath        A property path pointing to the property used to group the choices.
+     * @param array|ModelCriteria       $preferred        The preferred items of this choice.
      *                                                    Either an array if $choices is given,
      *                                                    or a ModelCriteria to be merged with the $queryObject.
      * @param PropertyAccessorInterface $propertyAccessor The reflection graph for reading property paths.
+     * @param string                    $useAsIdentifier  a custom unique column (eg slug) to use instead of primary key.
+     *
+     * @throws MissingOptionsException In case the class parameter is empty.
+     * @throws InvalidOptionsException In case the query class is not found.
      */
-    public function __construct($class, $labelPath = null, $choices = null, $queryObject = null, $groupPath = null, $preferred = array(), PropertyAccessorInterface $propertyAccessor = null)
+    public function __construct($class, $labelPath = null, $choices = null, $queryObject = null, $groupPath = null, $preferred = array(), PropertyAccessorInterface $propertyAccessor = null, $useAsIdentifier = null)
     {
-        $this->class        = $class;
+        $this->class = $class;
 
-        $queryClass         = $this->class.'Query';
+        $queryClass = $this->class.'Query';
         if (!class_exists($queryClass)) {
             if (empty($this->class)) {
                 throw new MissingOptionsException('The "class" parameter is empty, you should provide the model class');
@@ -93,11 +96,16 @@ class ModelChoiceList extends ObjectChoiceList
             throw new InvalidOptionsException(sprintf('The query class "%s" is not found, you should provide the FQCN of the model class', $queryClass));
         }
 
-        $query              = new $queryClass();
+        $query = new $queryClass();
 
-        $this->query        = $queryObject ?: $query;
-        $this->identifier   = $this->query->getTableMap()->getPrimaryKeys();
-        $this->loaded       = is_array($choices) || $choices instanceof \Traversable;
+        $this->query = $queryObject ?: $query;
+        if ($useAsIdentifier) {
+            $this->identifier = array( $this->query->getTableMap()->getColumn($useAsIdentifier) );
+        } else {
+            $this->identifier = $this->query->getTableMap()->getPrimaryKeys();
+        }
+
+        $this->loaded = is_array($choices) || $choices instanceof \Traversable;
 
         if ($preferred instanceof ModelCriteria) {
             $this->preferredQuery = $preferred->mergeWith($this->query);
@@ -435,6 +443,14 @@ class ModelChoiceList extends ObjectChoiceList
     {
         if (!$model instanceof $this->class) {
             return array();
+        }
+
+        if (1 === count($this->identifier) && current($this->identifier) instanceof \ColumnMap) {
+            $phpName = current($this->identifier)->getPhpName();
+
+            if (method_exists($model, 'get'.$phpName)) {
+                return array($model->{'get'.$phpName}());
+            }
         }
 
         if ($model instanceof Persistent) {

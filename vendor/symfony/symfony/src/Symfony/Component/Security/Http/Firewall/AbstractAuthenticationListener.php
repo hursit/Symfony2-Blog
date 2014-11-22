@@ -92,15 +92,15 @@ abstract class AbstractAuthenticationListener implements ListenerInterface
         $this->successHandler = $successHandler;
         $this->failureHandler = $failureHandler;
         $this->options = array_merge(array(
-            'check_path'                     => '/login_check',
-            'login_path'                     => '/login',
+            'check_path' => '/login_check',
+            'login_path' => '/login',
             'always_use_default_target_path' => false,
-            'default_target_path'            => '/',
-            'target_path_parameter'          => '_target_path',
-            'use_referer'                    => false,
-            'failure_path'                   => null,
-            'failure_forward'                => false,
-            'require_previous_session'       => true,
+            'default_target_path' => '/',
+            'target_path_parameter' => '_target_path',
+            'use_referer' => false,
+            'failure_path' => null,
+            'failure_forward' => false,
+            'require_previous_session' => true,
         ), $options);
         $this->logger = $logger;
         $this->dispatcher = $dispatcher;
@@ -149,14 +149,14 @@ abstract class AbstractAuthenticationListener implements ListenerInterface
             if ($returnValue instanceof TokenInterface) {
                 $this->sessionStrategy->onAuthentication($request, $returnValue);
 
-                $response = $this->onSuccess($event, $request, $returnValue);
+                $response = $this->onSuccess($request, $returnValue);
             } elseif ($returnValue instanceof Response) {
                 $response = $returnValue;
             } else {
                 throw new \RuntimeException('attemptAuthentication() must either return a Response, an implementation of TokenInterface, or null.');
             }
         } catch (AuthenticationException $e) {
-            $response = $this->onFailure($event, $request, $e);
+            $response = $this->onFailure($request, $e);
         }
 
         $event->setResponse($response);
@@ -189,7 +189,7 @@ abstract class AbstractAuthenticationListener implements ListenerInterface
      */
     abstract protected function attemptAuthentication(Request $request);
 
-    private function onFailure(GetResponseEvent $event, Request $request, AuthenticationException $failed)
+    private function onFailure(Request $request, AuthenticationException $failed)
     {
         if (null !== $this->logger) {
             $this->logger->info(sprintf('Authentication request failed: %s', $failed->getMessage()));
@@ -209,7 +209,7 @@ abstract class AbstractAuthenticationListener implements ListenerInterface
         return $response;
     }
 
-    private function onSuccess(GetResponseEvent $event, Request $request, TokenInterface $token)
+    private function onSuccess(Request $request, TokenInterface $token)
     {
         if (null !== $this->logger) {
             $this->logger->info(sprintf('User "%s" has been authenticated successfully', $token->getUsername()));

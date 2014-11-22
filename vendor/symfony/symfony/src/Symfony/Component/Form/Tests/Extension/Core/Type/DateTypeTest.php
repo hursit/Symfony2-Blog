@@ -340,6 +340,36 @@ class DateTypeTest extends TypeTestCase
         ));
     }
 
+    /**
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
+     */
+    public function testThrowExceptionIfYearsIsInvalid()
+    {
+        $this->factory->create('date', null, array(
+            'years' => 'bad value',
+        ));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
+     */
+    public function testThrowExceptionIfMonthsIsInvalid()
+    {
+        $this->factory->create('date', null, array(
+            'months' => 'bad value',
+        ));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
+     */
+    public function testThrowExceptionIfDaysIsInvalid()
+    {
+        $this->factory->create('date', null, array(
+            'days' => 'bad value',
+        ));
+    }
+
     public function testSetDataWithDifferentTimezones()
     {
         $form = $this->factory->create('date', null, array(
@@ -412,7 +442,7 @@ class DateTypeTest extends TypeTestCase
 
         $this->assertEquals(array(
             new ChoiceView('1', '1', 'Jän'),
-            new ChoiceView('4', '4', 'Apr.')
+            new ChoiceView('4', '4', 'Apr.'),
         ), $view['month']->vars['choices']);
     }
 
@@ -554,7 +584,7 @@ class DateTypeTest extends TypeTestCase
     public function testPassDatePatternToViewDifferentPattern()
     {
         $form = $this->factory->create('date', null, array(
-            'format' => 'MMyyyydd'
+            'format' => 'MMyyyydd',
         ));
 
         $view = $form->createView();
@@ -565,7 +595,7 @@ class DateTypeTest extends TypeTestCase
     public function testPassDatePatternToViewDifferentPatternWithSeparators()
     {
         $form = $this->factory->create('date', null, array(
-            'format' => 'MM*yyyy*dd'
+            'format' => 'MM*yyyy*dd',
         ));
 
         $view = $form->createView();
@@ -745,8 +775,8 @@ class DateTypeTest extends TypeTestCase
         ));
         $form['year']->addError($error);
 
-        $this->assertSame(array(), $form['year']->getErrors());
-        $this->assertSame(array($error), $form->getErrors());
+        $this->assertSame(array(), iterator_to_array($form['year']->getErrors()));
+        $this->assertSame(array($error), iterator_to_array($form->getErrors()));
     }
 
     /**
@@ -760,8 +790,8 @@ class DateTypeTest extends TypeTestCase
         ));
         $form['month']->addError($error);
 
-        $this->assertSame(array(), $form['month']->getErrors());
-        $this->assertSame(array($error), $form->getErrors());
+        $this->assertSame(array(), iterator_to_array($form['month']->getErrors()));
+        $this->assertSame(array($error), iterator_to_array($form->getErrors()));
     }
 
     /**
@@ -775,8 +805,8 @@ class DateTypeTest extends TypeTestCase
         ));
         $form['day']->addError($error);
 
-        $this->assertSame(array(), $form['day']->getErrors());
-        $this->assertSame(array($error), $form->getErrors());
+        $this->assertSame(array(), iterator_to_array($form['day']->getErrors()));
+        $this->assertSame(array($error), iterator_to_array($form->getErrors()));
     }
 
     public function testYearsFor32BitsMachines()
